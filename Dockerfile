@@ -3,7 +3,6 @@ FROM openjdk:11 as build
 COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
-COPY example-structure example-structure
 COPY src src
 
 RUN chmod +x ./mvnw && ./mvnw clean install
