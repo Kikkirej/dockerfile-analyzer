@@ -9,8 +9,7 @@ class Analysis(@Id var id: Long)
 @Entity(name="docker_file")
 class DockerFile(@Id @GeneratedValue(strategy = GenerationType.SEQUENCE) var id: Long,
                  @ManyToOne var analysis: Analysis,
-                 var path: String
-)
+                 var path: String) : Serializable
 
 @Entity(name = "docker_image_file")
 class DockerImageFile(@Id @ManyToOne var dockerFile: DockerFile,
@@ -18,10 +17,8 @@ class DockerImageFile(@Id @ManyToOne var dockerFile: DockerFile,
                       @Id var index: Int,
                       var runImage: Boolean,
                       var stagename: String?,
-                      var tag: String?){
-
-}
+                      var tag: String?)
 
 @Entity(name = "docker_image")
 class DockerImage(@Id @GeneratedValue(strategy = GenerationType.SEQUENCE) var id: Long,
-                  @Column(unique = true, nullable = false) var name: String)
+                  @Column(unique = true, nullable = false) var name: String) : Serializable
