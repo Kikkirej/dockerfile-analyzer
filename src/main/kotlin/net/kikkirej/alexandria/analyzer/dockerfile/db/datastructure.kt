@@ -17,7 +17,7 @@ class DockerImageFile(@Id @ManyToOne var dockerFile: DockerFile,
                       @Id var index: Int,
                       var runImage: Boolean,
                       var stagename: String?,
-                      var tag: String?)
+                      var tag: String?) : Serializable
 
 @Entity(name = "docker_image")
 class DockerImage(@Id @GeneratedValue(strategy = GenerationType.SEQUENCE) var id: Long,
