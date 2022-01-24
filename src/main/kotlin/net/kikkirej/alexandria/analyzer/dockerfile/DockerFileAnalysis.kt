@@ -21,11 +21,11 @@ class DockerFileAnalysis(@Autowired val generalProperties: GeneralProperties,
     override fun execute(externalTask: ExternalTask?, externalTaskService: ExternalTaskService?) {
         try {
             val analysisFolder = getAnalysisFolder(externalTask!!.businessKey)
-            log.info("Analysis for '%s'", externalTask.businessKey)
-            log.debug("Analyzing in folder: %s", analysisFolder)
+            log.info("Analysis for '$externalTask.businessKey'")
+            log.debug("Analyzing in folder: $analysisFolder")
             val dockerfiles = dockerFileCrawler.searchIn(analysisFolder)
-            log.debug("Found files (unsure wether format is avaiable): %s", dockerfiles)
-
+            log.debug("Found files (unsure wether format is avaiable): $dockerfiles")
+            externalTaskService!!.complete(externalTask)
         }catch (exception: Exception){
             log.error("error while handling analysis '" + (externalTask?.businessKey ?: "unknown") + "'", exception)
             externalTaskService?.handleBpmnError(externalTask, "undefined", exception.message)
