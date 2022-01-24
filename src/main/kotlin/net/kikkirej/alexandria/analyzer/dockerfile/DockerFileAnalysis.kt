@@ -14,17 +14,21 @@ import java.io.File
 @Component
 @ExternalTaskSubscription("dockerfile-analysis")
 class DockerFileAnalysis(@Autowired val generalProperties: GeneralProperties,
-                         @Autowired val dockerFileCrawler: DockerFileCrawler) : ExternalTaskHandler{
+                         @Autowired val dockerFileCrawler: DockerFileCrawler,
+                         @Autowired val dockerFileFromAnalyzer: DockerFileFromAnalyzer) : ExternalTaskHandler{
 
     val log: Logger = LoggerFactory.getLogger(javaClass)
 
     override fun execute(externalTask: ExternalTask?, externalTaskService: ExternalTaskService?) {
         try {
             val analysisFolder = getAnalysisFolder(externalTask!!.businessKey)
-            log.info("Analysis for '$externalTask.businessKey'")
+            log.info("Analysis for '${externalTask.businessKey}'")
             log.debug("Analyzing in folder: $analysisFolder")
             val dockerfiles = dockerFileCrawler.searchIn(analysisFolder)
-            log.debug("Found files (unsure wether format is avaiable): $dockerfiles")
+            log.info("Found files (unsure wether format is avaiable): $dockerfiles")
+            for(dockerfile in dockerfiles){
+                dockerFileFromAnalyzer.analyzeDockerFile(analysisFolder, dockerfile, externalTask.businessKey)
+            }
             externalTaskService!!.complete(externalTask)
         }catch (exception: Exception){
             log.error("error while handling analysis '" + (externalTask?.businessKey ?: "unknown") + "'", exception)
