@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class DockerfileAnalyzerApplication
+class DockerFileAnalyzerApplication
 
 fun main(args: Array<String>) {
-	runApplication<DockerfileAnalyzerApplication>(*args)
+	runApplication<DockerFileAnalyzerApplication>(*args)
 }
