@@ -30,7 +30,7 @@ class DockerFileFromAnalyzer(@Autowired val dockerImageRepository: DockerImageRe
             var dockerImage = getDockerImage(imageName)
             val analysis = analysisRepository.findById(businessKey.toLong())
             val dockerFileDb =
-                DockerFile(analysis = analysis.get(), id = 0, path = getSubPath(rootDirectory, dockerFile))
+                DockerFile(analysis = analysis.get(), path = getSubPath(rootDirectory, dockerFile))
             dockerFileRepository.save(dockerFileDb)
             val dockerImageFile = DockerImageFile(
                 dockerFile = dockerFileDb,
@@ -53,7 +53,7 @@ class DockerFileFromAnalyzer(@Autowired val dockerImageRepository: DockerImageRe
         if(dockerImageByName!=null){
             return dockerImageByName
         }
-        val dockerImage = DockerImage(name = imageName, id=0)
+        val dockerImage = DockerImage(name = imageName)
         dockerImageRepository.save(dockerImage)
         return dockerImage
     }
